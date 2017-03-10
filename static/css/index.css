@@ -5,6 +5,9 @@ ul.lanren {
   width: 400px;
   padding: 0;
   display: inline-block;
+  border: 1px solid;
+  padding: 0;
+  margin: 0;
   /*margin: 100px auto;*/ }
 
 .scale_panel {
@@ -19,7 +22,7 @@ ul.lanren {
   float: right; }
 
 .scale span {
-  background: url(images/scroll.gif) no-repeat;
+  background: url(../images/scroll.gif) no-repeat;
   width: 8px;
   height: 16px;
   position: absolute;
