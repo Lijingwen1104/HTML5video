@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        ul.lanren {
+            width: 400px;
+            padding: 0;
+            display: inline-block;
+            /*margin: 100px auto;*/
+        }
+        
+        .scale_panel {
+            color: #999;
+            width: 200px;
+            position: absolute;
+            line-height: 18px;
+            left: 60px;
+            top: -0px;
+        }
+        
+        .scale_panel .r {
+            float: right;
+        }
+        
+        .scale span {
+            background: url(images/scroll.gif) no-repeat;
+            width: 8px;
+            height: 16px;
+            position: absolute;
+            left: -2px;
+            top: -5px;
+            cursor: pointer;
+        }
+        
+        .scale {
+            background-repeat: repeat-x;
+            background-position: 0 100%;
+            background-color: #E4E4E4;
+            border-left: 1px #83BBD9 solid;
+            width: 200px;
+            height: 3px;
+            position: relative;
+            font-size: 0px;
+            border-radius: 3px;
+        }
+        
+        .scale div {
+            background-repeat: repeat-x;
+            background-color: #3BE3FF;
+            width: 0px;
+            position: absolute;
+            height: 3px;
+            width: 0;
+            left: 0;
+            bottom: 0;
+        }
+        
+        .lanren li {
+            font-size: 12px;
+            line-height: 50px;
+            position: relative;
+            height: 50px;
+            list-style: none;
+        }
+        
+        .myVideo {
+            border: 1px solid;
+            position: relative;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="myVideo">
+        
+        <video controls="controls" id="video1" width="420" style="margin-top:15px;">
+            <source src="http://www.w3school.com.cn/example/html5/mov_bbb.mp4" type="video/mp4" />
+        </video>
+        <button onclick="playPause()">播放/暂停</button>
+        <div id="loading">
+            loading......
+        </div>
+        <ul class="lanren">
+            <li>red <span id="title">0</span>
+                <div class="scale_panel">
+                    <span class="r">100</span>0
+                    <div class="scale" id="bar">
+                        <!--蓝色进度条-->
+                        <div></div>
+                        <span id="btn"></span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <script>
+        var myVideo = document.getElementById("video1");
+        console.log(myVideo);
+        myVideo.addEventListener('loadedmetadata', function () {
+            console.log("ready2")
+            function setCurTime(persent) {
+                myVideo.currentTime = myVideo.duration * persent / 100;
+            };
+            var scale = function (btn, bar, title) {
+                this.btn = document.getElementById(btn);//拖动的方块
+                this.bar = document.getElementById(bar);//整个bar
+                this.title = document.getElementById(title);//当前百分比title
+                this.step = this.bar.getElementsByTagName("div")[0];//蓝色进度条
+                this.myVideo = document.getElementById("video1");
+                this.loading=document.getElementById("loading");
+                this.canMove = true;//是否可以拖动
+                this.init();
+            };
+            scale.prototype = {
+                init: function () {
+                    var f = this, g = document, b = window, m = Math;
+                    f.myVi
+                    f.btn.onmousedown = function (e) {
+                        var x = (e || b.event).clientX;
+                        var l = this.offsetLeft;
+                        var max = f.bar.offsetWidth - this.offsetWidth;
+                        if (f.canMove) {
+                            g.onmousemove = function (e) {
+                                var thisX = (e || b.event).clientX;
+                                var to = m.min(max, m.max(-2, l + (thisX - x)));
+                                f.btn.style.left = to + 'px';
+                                f.ondrag(m.round(m.max(0, to / max) * 100), to);
+                                b.getSelection ? b.getSelection().removeAllRanges() : g.selection.empty();
+                                f.btn.onmouseup = function (e) {
+                                    setCurTime(m.round(m.max(0, to / max) * 100));
+                                    myVideo.play();
+                                }
+                                f.myVideo.pause();
+                            };
+                        }
+                        g.onmouseup = new Function('this.onmousemove=null');
+                    };
+                    f.myVideo.addEventListener('timeupdate', function () {
+                        var persent = parseInt(f.myVideo.currentTime / f.myVideo.duration * 100);
+                        var x = parseInt(f.bar.offsetWidth * persent / 100);
+                        console.log(x);
+                        f.ondrag(persent, x);
+                        f.btn.style.left = x + 'px';
+                    });
+                },
+                ondrag: function (pos, x) {
+                    console.log(x)
+                    this.step.style.width = Math.max(0, x) + 'px';
+                    this.title.innerHTML = pos + '%';
+                }
+            }
+            new scale('btn', 'bar', 'title');
+        });
+        function playPause() {
+            if (myVideo.paused)
+                myVideo.play();
+            else
+                myVideo.pause();
+        }
+    </script>
+</body>
+
+</html>
