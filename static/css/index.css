@@ -1,77 +1,75 @@
 body {
   margin: 0; }
 
-ul.lanren {
-  width: 400px;
-  padding: 0;
-  display: inline-block;
-  border: 1px solid;
-  padding: 0;
-  margin: 0;
-  /*margin: 100px auto;*/ }
-
-.scale_panel {
-  color: #999;
-  width: 200px;
-  position: absolute;
-  line-height: 18px;
-  left: 60px;
-  top: -0px; }
-
-.scale_panel .r {
-  float: right; }
-
-.scale span {
-  background: url(../images/scroll.gif) no-repeat;
-  width: 8px;
-  height: 16px;
-  position: absolute;
-  left: -2px;
-  top: -5px;
-  cursor: pointer; }
-
-.scale {
-  background-repeat: repeat-x;
-  background-position: 0 100%;
-  background-color: #E4E4E4;
-  border-left: 1px #83BBD9 solid;
-  width: 200px;
-  height: 3px;
-  position: relative;
-  font-size: 0px;
-  border-radius: 3px; }
-
-.scale div {
-  background-repeat: repeat-x;
-  background-color: #3BE3FF;
-  width: 0px;
-  position: absolute;
-  height: 3px;
-  width: 0;
-  left: 0;
-  bottom: 0; }
-
-.lanren li {
-  font-size: 12px;
-  line-height: 50px;
-  position: relative;
-  height: 50px;
-  list-style: none; }
-
 .myVideo {
   border: 1px solid;
   position: relative;
   display: inline-block; }
-
-video {
-  /*position: absolute;*/
-  z-index: 1; }
-
-.controls {
-  /*border:1px solid;*/
-  position: absolute;
-  z-index: 2;
-  background-color: #ffffff;
-  top: 0;
-  width: 100%;
-  box-sizing: content-box; }
+  .myVideo video {
+    position: relative;
+    z-index: 1; }
+  .myVideo .loading {
+    background-color: rgba(120, 199, 190, 0.6);
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    z-index: 2;
+    opacity: 0; }
+  .myVideo .controls {
+    /*border:1px solid;*/
+    position: relative;
+    z-index: 3;
+    background-color: rgba(255, 255, 255, 0.9);
+    bottom: 0;
+    width: 100%;
+    box-sizing: content-box; }
+    .myVideo .controls ul.lanren {
+      padding: 0;
+      display: inline-block;
+      border: 1px solid;
+      padding: 0;
+      margin: 0;
+      /*margin: 100px auto;*/ }
+      .myVideo .controls ul.lanren .scale_panel {
+        color: #999;
+        width: 200px;
+        position: absolute;
+        line-height: 18px;
+        left: 60px;
+        top: -0px; }
+        .myVideo .controls ul.lanren .scale_panel .r {
+          float: right; }
+        .myVideo .controls ul.lanren .scale_panel .scale {
+          background-repeat: repeat-x;
+          background-position: 0 100%;
+          background-color: #E4E4E4;
+          border-left: 1px #83BBD9 solid;
+          width: 200px;
+          height: 3px;
+          position: relative;
+          font-size: 0px;
+          border-radius: 3px; }
+          .myVideo .controls ul.lanren .scale_panel .scale span {
+            background: url(../images/scroll.gif) no-repeat;
+            width: 8px;
+            height: 16px;
+            position: absolute;
+            left: -2px;
+            top: -5px;
+            cursor: pointer; }
+          .myVideo .controls ul.lanren .scale_panel .scale div {
+            background-repeat: repeat-x;
+            background-color: #3BE3FF;
+            width: 0px;
+            position: absolute;
+            height: 3px;
+            width: 0;
+            left: 0;
+            bottom: 0; }
+      .myVideo .controls ul.lanren li {
+        font-size: 12px;
+        line-height: 50px;
+        position: relative;
+        height: 50px;
+        list-style: none; }
