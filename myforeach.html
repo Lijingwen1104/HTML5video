@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script>
+        //  forEach  map every some filter reduce
+        var arr = ["a", "b", "c"]
+        // console.log(arr.length);
+        // arr.forEach(function(value,index,array){
+        //     console.log(value);
+        //     console.log(index);
+        //     console.log(array)
+        // })
+        Array.prototype.myForEach = function (fun) {
+            for (var i = 0; i < this.length; i++) {
+                fun(this[i], i, this);
+            }
+        }
+        arr.myForEach(function (value, index, array) {
+            console.log(value, index, array)
+        });
+        // var newarr=arr.map(function(value,index,array){
+        //     // var myarray=newArray();
+        //     return value+"2";
+        // })
+        // console.log(newarr)
+        Array.prototype.myMap = function (fun) {
+            var myarray = [];
+            for (var i = 0; i < this.length; i++) {
+                myarray.push(fun(this[i], i, this));
+            }
+            return myarray;
+        }
+        var newarr = arr.myMap(function (value, index, array) {
+            return value + "2";
+        })
+        console.log(newarr);
+
+        // var bool=arr.every(function(value,index,array){
+        //     return value!="x";
+        // }) 
+        // console.log(bool)
+        Array.prototype.myEvery = function (fun) {
+            var mybool = true;
+            for (var i = 0; i < this.length; i++) {
+                // myarray.push(fun(this[i],i,this));
+                mybool = mybool && fun(this[i], i, this)
+            }
+            return mybool
+        }
+        var bool = arr.myEvery(function (value, index, array) {
+            return value != "x";
+        })
+        console.log(bool);
+
+        // var bool2=arr.some(function(value,index,array){
+        //     return value=="b";
+        // }) 
+        // console.log(bool2)
+        Array.prototype.mySome = function (fun) {
+            var mybool = false;
+            for (var i = 0; i < this.length; i++) {
+                // myarray.push(fun(this[i],i,this));
+                mybool = mybool || fun(this[i], i, this);
+            }
+            return mybool;
+        }
+        var bool2 = arr.mySome(function (value, index, array) {
+            return value == "a";
+        })
+        console.log(bool2)
+
+        // var arr2=[10,11,12];
+        // var newarr2=arr2.filter(function(value,index,array){
+        //     return value>10;
+        // })
+        // console.log(newarr2);
+        var arr2 = [10, 11, 12];
+        Array.prototype.myFilter = function (fun) {
+            var myarray = [];
+            for (var i = 0; i < this.length; i++) {
+                if (fun(this[i], i, this)) {
+                    myarray.push(this[i])
+                }
+            }
+            return myarray;
+        }
+        var newarr2 = arr2.myFilter(function (value, index, array) {
+            return value > 10;
+        })
+        console.log(newarr2);
+
+
+        // var total=arr2.reduce(function(pre,next,index,array){
+        //     return pre+next;
+        // })
+        // console.log(total);
+
+        Array.prototype.myReduce = function (fun, initial) {
+            // var a=!initial==true?this[0]:initial;
+            var a ,i;
+            if (initial===undefined) {
+                a = this[0];
+                i=1;
+            } else {
+                a = initial;
+                i=0;
+            }
+            for(;i<this.length;i++){
+                a= fun(a,this[i],i,this);
+            }
+            return a;
+        }
+        var total = arr2.myReduce(function (pre, next, index, array) {
+            return pre + next;
+        }, 0)
+        console.log(total);
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

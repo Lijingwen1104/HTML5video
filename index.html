@@ -20,11 +20,11 @@
         <div class="controls">
             <button class="pausebut" id="pause" onclick="playPause()" disabled>播放/暂停</button>
             <ul class="lanren">
-                <li>red <span id="title">0</span>
+                <li><span id="totleTime"></span>/<span id="title">0</span>
                     <div class="scale_panel">
                         <span class="r">100</span>0
                         <div class="scale" id="bar">
-                            <!--蓝色进度条-->
+                   1         <!--蓝色进度条-->
                             <div></div>
                             <span id="btn"></span>
                         </div>
@@ -47,6 +47,7 @@
             this.video1 = document.getElementById("video1");//视频
             this.loading = document.getElementById("loading");//loading
             this.pause = document.getElementById("pause");//暂停按钮 
+            this.totleTime=document.getElementById("totleTime")//总时间
             this.canMove = true;//是否可以拖动
             this.log = document.getElementById("log");//log输出
             this.isfirstloading = true;//是否是第一次播放
@@ -58,6 +59,7 @@
                 //video准备完成
                 f.video1.addEventListener('loadedmetadata', function () {
                     console.log("ready2");
+                    f.totleTime.innerHTML= f.video1.duration;
                     //正在播放
                     f.video1.addEventListener('timeupdate', function () {
                         timeupdate();
