@@ -12,25 +12,31 @@
 <div class="myVideo">
 
     <video id="video1">
-        <source src="http://files.zhangmen.com/2017%E4%BA%A7%E5%93%81%E5%AE%A3%E4%BC%A0%E7%89%87.mp4" type="video/mp4"/>
+        <source src="http://demo.itivy.com/html5-canvas-video/BigBuckBunny_640x360.mp4" type="video/mp4"/>
     </video>
     <div class="loading" id="loading">
         loading......
     </div>
     <div class="controls">
         <button class="pausebut" id="pause">播放/暂停</button>
-        <ul class="lanren">
-            <li><span id="totleTime"></span>/<span id="title">0</span>
-                <div class="scale_panel">
-                    <span class="r">100</span>
-                    <div class="scale" id="bar">
-                        <!--蓝色进度条-->
-                        <div class="curBar"></div>
-                        <span id="btn"></span>
-                    </div>
-                </div>
-            </li>
-        </ul>
+        <div class="scale_panel">
+            <span class="curTime">00:00:00</span>
+            <div class="scale" id="bar">
+                <!--蓝色进度条-->
+                <div class="curBar"></div>
+                <span id="btn"></span>
+            </div>
+            <span class="totalTime">00:00:00</span>
+            <span class="volumeBar">
+                <!--红色进度条-->
+                <div class="curVolumeBar"></div>
+                <span class="volume"></span>
+                <span id="volumeBtn"></span>
+
+            </span>
+            <span class="fullScreen">全屏</span>
+
+        </div>
     </div>
 
 </div>
@@ -38,114 +44,114 @@
 
 </h1>
 <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="./util.js"></script>
 <script src="./HTML5Player.js"></script>
 <script>
-    var video1 = document.getElementById("video1");
-    var scale = function (btn, bar, title) {
-        this.btn = document.getElementById(btn);//拖动的方块
-        this.bar = document.getElementById(bar);//整个bar
-        this.title = document.getElementById(title);//当前百分比title
-        this.step = this.bar.getElementsByTagName("div")[0];//蓝色进度条
-        this.video1 = document.getElementById("video1");//视频
-        this.loading = document.getElementById("loading");//loading
-        this.pause = document.getElementById("pause");//暂停按钮
-        this.totleTime = document.getElementById("totleTime")//总时间
-        this.canMove = true;//是否可以拖动
-        this.log = document.getElementById("log");//log输出
-        this.isfirstloading = true;//是否是第一次播放
-        this.init();
-    };
-    scale.prototype = {
-        init: function () {
-            var f = this, g = document, b = window, m = Math;
-            //video准备完成
-            f.video1.addEventListener('loadedmetadata', function () {
-                console.log("ready2");
-                f.totleTime.innerHTML = f.video1.duration;
-                //正在播放
-                f.video1.addEventListener('timeupdate', function () {
-                    timeupdate();
-                })
-                //可以播放
-                f.video1.addEventListener('canplaythrough', function () {
-                    f.log.innerHTML += "a";
-                    f.pause.disabled = false;
-                });
-                //权限控制进度条是否可拖动
-                if (f.canMove) {
-                    f.btn.onmousedown = function (e) {
-                        var x = (e || b.event).clientX;
-                        var l = this.offsetLeft;
-                        var max = f.bar.offsetWidth - this.offsetWidth;
-                        //按钮拖动
-                        g.onmousemove = function (e) {
-                            var thisX = (e || b.event).clientX;
-                            var to = m.min(max, m.max(-2, l + (thisX - x)));
-                            f.btn.style.left = to + 'px';
-                            f.ondrag(m.round(m.max(0, to / max) * 100), to);
-                            b.getSelection ? b.getSelection().removeAllRanges() : g.selection.empty();
-                            f.btn.onmouseup = function (e) {
-                                f.setCurTime(m.round(m.max(0, to / max) * 100));
-                                video1.play();
-                            }
-                            f.video1.pause();
-
-                        }
-                        g.onmouseup = new Function('this.onmousemove=null');
-                    }
-                }
-                //按钮点击暂停
-                f.pause.onclick = function () {
-                    // f.isplay=true;
-                    if (f.isfirstloading) {
-                        f.loading.style.opacity = 1;
-                        var timer = setInterval(function () {
-                            var currentTime = f.video1.currentTime; // 检测当前的播放时间
-
-                            if (currentTime > 0) {
-                                f.loading.style.opacity = 0;
-                                clearInterval(timer);
-                            }
-                        }, 100);
-                    }
-                    f.isfirstloading = false;
-                    if (f.video1.paused)
-                        f.video1.play();
-                    else
-                        f.video1.pause();
-                }
-            })
-
-            // f.video1.addEventListener('loadedmetadata',function(){
-            //     console.log("loadedmetadata")
-            // })
-            function timeupdate() {
-                var persent = parseInt(f.video1.currentTime / f.video1.duration * 100);
-                var x = parseInt(f.bar.offsetWidth * persent / 100);
-                // console.log(x);
-                f.ondrag(persent, x);
-                f.btn.style.left = x + 'px';
-                // f.log.innerHTML+=f.video1.readyState;
-            };
-
-        },
-        //滚动条进度
-        ondrag: function (pos, x) {
-            // console.log(x)
-            this.step.style.width = Math.max(0, x) + 'px';
-            this.title.innerHTML = pos + '%';
-        },
-        //按百分比设置当前视频时间
-        setCurTime: function (persent) {
-            video1.currentTime = video1.duration * persent / 100;
-        }
-    }
+    //    var video1 = document.getElementById("video1");
+    //    var scale = function (btn, bar, title) {
+    //        this.btn = document.getElementById(btn);//拖动的方块
+    //        this.bar = document.getElementById(bar);//整个bar
+    //        this.title = document.getElementById(title);//当前百分比title
+    //        this.step = this.bar.getElementsByTagName("div")[0];//蓝色进度条
+    //        this.video1 = document.getElementById("video1");//视频
+    //        this.loading = document.getElementById("loading");//loading
+    //        this.pause = document.getElementById("pause");//暂停按钮
+    //        this.totleTime = document.getElementById("totleTime")//总时间
+    //        this.canMove = true;//是否可以拖动
+    //        this.log = document.getElementById("log");//log输出
+    //        this.isfirstloading = true;//是否是第一次播放
+    //        this.init();
+    //    };
+    //    scale.prototype = {
+    //        init: function () {
+    //            var f = this, g = document, b = window, m = Math;
+    //            //video准备完成
+    //            f.video1.addEventListener('loadedmetadata', function () {
+    //                console.log("ready2");
+    //                f.totleTime.innerHTML = f.video1.duration;
+    //                //正在播放
+    //                f.video1.addEventListener('timeupdate', function () {
+    //                    timeupdate();
+    //                })
+    //                //可以播放
+    //                f.video1.addEventListener('canplaythrough', function () {
+    //                    f.log.innerHTML += "a";
+    //                    f.pause.disabled = false;
+    //                });
+    //                //权限控制进度条是否可拖动
+    //                if (f.canMove) {
+    //                    f.btn.onmousedown = function (e) {
+    //                        var x = (e || b.event).clientX;
+    //                        var l = this.offsetLeft;
+    //                        var max = f.bar.offsetWidth - this.offsetWidth;
+    //                        //按钮拖动
+    //                        g.onmousemove = function (e) {
+    //                            var thisX = (e || b.event).clientX;
+    //                            var to = m.min(max, m.max(-2, l + (thisX - x)));
+    //                            f.btn.style.left = to + 'px';
+    //                            f.ondrag(m.round(m.max(0, to / max) * 100), to);
+    //                            b.getSelection ? b.getSelection().removeAllRanges() : g.selection.empty();
+    //                            f.btn.onmouseup = function (e) {
+    //                                f.setCurTime(m.round(m.max(0, to / max) * 100));
+    //                                video1.play();
+    //                            }
+    //                            f.video1.pause();
+    //
+    //                        }
+    //                        g.onmouseup = new Function('this.onmousemove=null');
+    //                    }
+    //                }
+    //                //按钮点击暂停
+    //                f.pause.onclick = function () {
+    //                    // f.isplay=true;
+    //                    if (f.isfirstloading) {
+    //                        f.loading.style.opacity = 1;
+    //                        var timer = setInterval(function () {
+    //                            var currentTime = f.video1.currentTime; // 检测当前的播放时间
+    //
+    //                            if (currentTime > 0) {
+    //                                f.loading.style.opacity = 0;
+    //                                clearInterval(timer);
+    //                            }
+    //                        }, 100);
+    //                    }
+    //                    f.isfirstloading = false;
+    //                    if (f.video1.paused)
+    //                        f.video1.play();
+    //                    else
+    //                        f.video1.pause();
+    //                }
+    //            })
+    //
+    //            // f.video1.addEventListener('loadedmetadata',function(){
+    //            //     console.log("loadedmetadata")
+    //            // })
+    //            function timeupdate() {
+    //                var persent = parseInt(f.video1.currentTime / f.video1.duration * 100);
+    //                var x = parseInt(f.bar.offsetWidth * persent / 100);
+    //                // console.log(x);
+    //                f.ondrag(persent, x);
+    //                f.btn.style.left = x + 'px';
+    //                // f.log.innerHTML+=f.video1.readyState;
+    //            };
+    //
+    //        },
+    //        //滚动条进度
+    //        ondrag: function (pos, x) {
+    //            // console.log(x)
+    //            this.step.style.width = Math.max(0, x) + 'px';
+    //            this.title.innerHTML = pos + '%';
+    //        },
+    //        //按百分比设置当前视频时间
+    //        setCurTime: function (persent) {
+    //            video1.currentTime = video1.duration * persent / 100;
+    //        }
+    //    }
     //    new scale('btn', 'bar', 'title');
-
     var a = h5VideoPlayer({
         $el: $('.myVideo'),
         autoplay: false,
-        canMove:true
+        canMove: true
     });
 
 </script>

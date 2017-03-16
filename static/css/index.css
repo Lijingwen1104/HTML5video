@@ -1,5 +1,6 @@
 body {
-  margin: 0; }
+  margin: 0;
+  overflow: hidden; }
 
 .myVideo {
   border: 1px solid;
@@ -21,56 +22,89 @@ body {
   .myVideo .controls {
     /*border:1px solid;*/
     position: relative;
+    padding: 10px;
     z-index: 3;
     background-color: rgba(255, 255, 255, 0.9);
     bottom: 0;
     width: 100%;
     box-sizing: content-box; }
-    .myVideo .controls ul.lanren {
-      padding: 0;
-      display: inline-block;
-      border: 1px solid;
-      padding: 0;
-      margin: 0;
-      /*margin: 100px auto;*/ }
-      .myVideo .controls ul.lanren .scale_panel {
-        color: #999;
+    .myVideo .controls .pausebut {
+      border: none;
+      border-radius: 3px;
+      background: #fe5b56;
+      color: #fff;
+      line-height: 26px;
+      margin-right: 15px;
+      cursor: pointer;
+      outline: none; }
+      .myVideo .controls .pausebut:hover {
+        background: #ff4936; }
+      .myVideo .controls .pausebut:active {
+        background: #fe5b56; }
+    .myVideo .controls .scale_panel {
+      color: #999;
+      line-height: 18px;
+      left: 100px;
+      top: -0px;
+      display: inline-block; }
+      .myVideo .controls .scale_panel .scale {
+        background-repeat: repeat-x;
+        background-position: 0 100%;
+        background-color: #E4E4E4;
+        border-left: 1px #83BBD9 solid;
         width: 200px;
-        position: absolute;
-        line-height: 18px;
-        left: 100px;
-        top: -0px; }
-        .myVideo .controls ul.lanren .scale_panel .r {
-          float: right; }
-        .myVideo .controls ul.lanren .scale_panel .scale {
-          background-repeat: repeat-x;
-          background-position: 0 100%;
-          background-color: #E4E4E4;
-          border-left: 1px #83BBD9 solid;
-          width: 200px;
-          height: 3px;
-          position: relative;
-          font-size: 0px;
-          border-radius: 3px; }
-          .myVideo .controls ul.lanren .scale_panel .scale span {
-            background: url(../images/scroll.gif) no-repeat;
-            width: 8px;
-            height: 16px;
-            position: absolute;
-            left: -2px;
-            top: -5px;
-            cursor: pointer; }
-          .myVideo .controls ul.lanren .scale_panel .scale div {
-            background-repeat: repeat-x;
-            background-color: #3BE3FF;
-            width: 0px;
-            position: absolute;
-            height: 3px;
-            left: 0;
-            bottom: 0; }
-      .myVideo .controls ul.lanren li {
-        font-size: 12px;
-        line-height: 50px;
+        height: 3px;
         position: relative;
-        height: 50px;
-        list-style: none; }
+        font-size: 0px;
+        border-radius: 3px;
+        display: inline-block;
+        top: -6px; }
+        .myVideo .controls .scale_panel .scale #btn {
+          background: url(../images/scroll.gif) no-repeat;
+          width: 8px;
+          height: 16px;
+          position: absolute;
+          left: -2px;
+          top: -7px;
+          cursor: pointer; }
+        .myVideo .controls .scale_panel .scale .curBar {
+          background-repeat: repeat-x;
+          background-color: #3BE3FF;
+          width: 0px;
+          position: absolute;
+          height: 3px;
+          left: 0;
+          bottom: 0; }
+      .myVideo .controls .scale_panel .volumeBar {
+        background-repeat: repeat-x;
+        background-position: 0 100%;
+        background-color: #E4E4E4;
+        border-left: 1px #83BBD9 solid;
+        width: 84px;
+        height: 3px;
+        position: relative;
+        font-size: 0px;
+        border-radius: 3px;
+        display: inline-block;
+        top: -6px; }
+        .myVideo .controls .scale_panel .volumeBar #volumeBtn {
+          background: url(../images/scroll.gif) no-repeat;
+          width: 8px;
+          height: 16px;
+          position: absolute;
+          left: -2px;
+          top: -7px;
+          cursor: pointer; }
+        .myVideo .controls .scale_panel .volumeBar .curVolumeBar {
+          background-repeat: repeat-x;
+          background-color: #3BE3FF;
+          width: 0px;
+          position: absolute;
+          height: 3px;
+          left: 0;
+          bottom: 0; }
+        .myVideo .controls .scale_panel .volumeBar .volume {
+          font-size: 16px;
+          position: absolute;
+          right: -10px;
+          top: -6px; }
