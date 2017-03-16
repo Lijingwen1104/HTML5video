@@ -24,7 +24,7 @@ gulp.task('sass',function(){
 })
 //监听所有html文件，改动了触发上一条任务
 gulp.task('watch',function(){
-    gulp.watch(['*.html',"static/css/*.css",'js/*.js'],['html','sass'])
+    gulp.watch(['*.html',"static/sass/*.scss",'js/*.js'],['html','sass'])
 })
 //default默认起服务和监听
 gulp.task('default',['connect','watch'])
