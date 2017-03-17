@@ -26,16 +26,18 @@
         if (!opts.$el) {
             throw 'should have a jQuery video element'
         }
-        this.opts = $.extend({autoplay: false, volume: 10, loop: false, canMove: true}, opts);
+
+        this.opts = $.extend({autoplay: false, volume: 0.5, loop: false, canMove: true}, opts);
         this._el = this.opts.$el;
         this._$loading = this._el.find('#loading');
         this._video = this._el.find('#video1');
-        this._maxVolume = 100;
         $.each(['autoplay', 'loop'], function (i, item) {
             if (self.opts[item]) {
                 self._video.attr(item, item)
             }
         });
+        this.setVolume(this.opts.volume);
+        this.changeVolumeBar(this.opts.volume);
         this.bindEvent();
     }
     var api = h5VideoPlayer.prototype.init.prototype = h5VideoPlayer.api = h5VideoPlayer.prototype;
@@ -92,29 +94,38 @@
         return parseInt(this._video[0].duration);
     };
 
-    //进入全屏
-    api.enterFullScreen = function (val) {
-
+    //进入全屏 在移动端有问题
+    api.enterFullScreen = function () {
+        var self = this;
+        $.each(['requestFullScreen', 'webkitRequestFullScreen', 'mozRequestFullScreen', 'msRequestFullscreen'], function (index, method) {
+            if (self._video[0][method]) {
+                self._video[0][method]();
+            }
+        });
     }
 
-    //退出全屏
+    //退出全屏 在移动端有问题
     api.exitFullScreen = function () {
-
+        var self = this;
+        $$.each(['exitFullscreen', 'webkitCancelFullScreen', 'mozCancelFullScreen', 'msCancelFullscreen'], function (index, method) {
+            if (self._video[0][method]) {
+                self._video[0][method]();
+            }
+        });
     }
 
     api.bindEvent = function () {
         var self = this;
 
         this._video.on('loadedmetadata', function () {
-            console.log(1)
             self._ready = true;
             self._paused = self.opts.autoplay ? false : true;
             self._el.find('.scale_panel .curTime').html(formatTime(self.getCurrentTime()))
             self._el.find('.scale_panel .totalTime').html(formatTime(self.getDuration()))
 
         })
-        this._video.on('loadeddata', function () {
-        })
+        // this._video.on('loadeddata', function () {
+        // })
 
         this._video.on('timeupdate', function () {
             self._el.find('.scale_panel .curTime').html(formatTime(self.getCurrentTime()))
@@ -137,6 +148,14 @@
             }
         });
 
+        this._el.find('.fullScreen').click(function () {
+            if(self._fullScreen){
+                self.exitFullScreen();
+            }else{
+                self.enterFullScreen();
+            }
+        });
+
         this._el.find('#volumeBtn').on('touchstart', function (e) {
             var originEvent = e.originalEvent;
             var x = originEvent.touches[0].clientX;
@@ -147,11 +166,11 @@
             $doc.on('touchmove', docMove)
 
             function docMove(e) {
-                self._$loading.show();
                 var originEvent = e.originalEvent;
                 var thisX = originEvent.touches[0].clientX;
                 to = Math.min(max, Math.max(-2, l + (thisX - x)));
                 self.setVolume(Math.max(0, to / max));
+                console.log(Math.max(0, to / max))
                 self.changeVolumeBar();
                 $doc.on('touchend', function docUp() {
                     $doc.unbind('mousemove', docMove);
@@ -201,10 +220,10 @@
     //更新音量条状态
     api.changeVolumeBar = function () {
         // var persent = parseInt(this.getCurrentTime() / this.getDuration() * 100);
-        // var x = parseInt(this._el.find('#bar').innerWidth() * persent / 100);
-        // this._el.find('.curBar').css('width', Math.max(0, x) + 'px');
-        this._el.find('.volume').html(this.getVolume()*100);
-        // this._el.find('#btn').css('left', x + 'px');
+        var x = parseInt(this._el.find('.volumeBar').innerWidth() * this.getVolume());
+        this._el.find('.curVolumeBar').css('width', Math.max(0, x) + 'px');
+        this._el.find('.volume').html(Math.round(this.getVolume() * 100));
+        this._el.find('#volumeBtn').css('left', x + 'px');
     }
 
     api.reset = function () {

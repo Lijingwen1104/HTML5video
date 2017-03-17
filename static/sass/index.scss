@@ -11,7 +11,7 @@ body {
   video {
     position: relative;
     z-index: 1;
-    width: 500px;
+    width: 600px;
     //  width:300px;
     //  height: 300px;
   }
@@ -104,6 +104,7 @@ body {
         border-radius: 3px;
         display: inline-block;
         top: -6px;
+        margin-right: 36px;
         #volumeBtn {
           background: url(../images/scroll.gif) no-repeat;
           width: 8px;
@@ -123,13 +124,16 @@ body {
           bottom: 0;
           //display: inline-block;
         }
-        .volume{
+        .volume {
           font-size: 16px;
           position: absolute;
-          right: -10px;
+          right: -26px;
           top: -6px;
         }
 
+      }
+      .fullScreen{
+        cursor: pointer;
       }
     }
   }
