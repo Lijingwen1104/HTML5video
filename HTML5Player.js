@@ -151,8 +151,10 @@
         this._el.find('.fullScreen').click(function () {
             if(self._fullScreen){
                 self.exitFullScreen();
+                self._fullScreen=false;
             }else{
                 self.enterFullScreen();
+                self._fullScreen=true;
             }
         });
 
