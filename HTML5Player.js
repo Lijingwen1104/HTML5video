@@ -4,7 +4,7 @@
             factory(global, true) :
             function (w) {
                 if (!w.document) {
-                    throw new Error("jQuery requires a window with a document");
+                    throw new Error("requires a window with a document");
                 }
                 return factory(w);
             };
@@ -107,7 +107,7 @@
     //退出全屏 在移动端有问题
     api.exitFullScreen = function () {
         var self = this;
-        $$.each(['exitFullscreen', 'webkitCancelFullScreen', 'mozCancelFullScreen', 'msCancelFullscreen'], function (index, method) {
+        $.each(['exitFullscreen', 'webkitCancelFullScreen', 'mozCancelFullScreen', 'msCancelFullscreen'], function (index, method) {
             if (self._video[0][method]) {
                 self._video[0][method]();
             }
