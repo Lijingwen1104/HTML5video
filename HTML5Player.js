@@ -148,8 +148,7 @@
                 self._$loading.show();
                 var timer = setInterval(function () {
                     var currentTime = self.getCurrentTime(); // 检测当前的播放时间
-
-                    if (currentTime > 0) {
+                    if (currentTime >= 0) {
                         self._$loading.hide();
                         clearInterval(timer);
                         self.isfirstloading = false;
