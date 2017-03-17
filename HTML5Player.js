@@ -28,8 +28,9 @@
         }
         this.opts = $.extend({autoplay: false, volume: 10, loop: false, canMove: true}, opts);
         this._el = this.opts.$el;
-        this._$loading=this._el.find('#loading');
-        this._video = this._el.find('#video1')
+        this._$loading = this._el.find('#loading');
+        this._video = this._el.find('#video1');
+        this._maxVolume = 100;
         $.each(['autoplay', 'loop'], function (i, item) {
             if (self.opts[item]) {
                 self._video.attr(item, item)
@@ -65,7 +66,7 @@
 
     //获取当前播放时间
     api.getCurrentTime = function () {
-        return this._video[0].currentTime;
+        return Math.floor(this._video[0].currentTime);
     };
 
     api.setCurrentTime = function (val) {
@@ -79,6 +80,7 @@
 
     //设置音量
     api.setVolume = function (val) {
+        val = val.toFixed(2);
         if (this._video[0].muted) {
             return;
         }
@@ -87,7 +89,7 @@
 
     //得到视频总播放时间长度
     api.getDuration = function () {
-        return this._video[0].duration;
+        return parseInt(this._video[0].duration);
     };
 
     //进入全屏
@@ -104,17 +106,27 @@
         var self = this;
 
         this._video.on('loadedmetadata', function () {
+            console.log(1)
             self._ready = true;
             self._paused = self.opts.autoplay ? false : true;
-            self._el.find('#totleTime').html(self.getDuration())
+            self._el.find('.scale_panel .curTime').html(formatTime(self.getCurrentTime()))
+            self._el.find('.scale_panel .totalTime').html(formatTime(self.getDuration()))
+
+        })
+        this._video.on('loadeddata', function () {
         })
 
         this._video.on('timeupdate', function () {
+            self._el.find('.scale_panel .curTime').html(formatTime(self.getCurrentTime()))
             self.changeProgressBar();
         })
 
         this._video.on('canplaythrough', function () {
             self._$loading.hide();
+        })
+
+        this._video.on('ended', function () {
+            self.reset();
         })
 
         this._el.find('#pause').click(function () {
@@ -123,28 +135,54 @@
             } else {
                 self.pause();
             }
+        });
+
+        this._el.find('#volumeBtn').on('touchstart', function (e) {
+            var originEvent = e.originalEvent;
+            var x = originEvent.touches[0].clientX;
+            var l = this.offsetLeft;
+            var max = self._el.find('.volumeBar').innerWidth() - $(this).innerWidth();
+            var to;
+            //按钮拖动
+            $doc.on('touchmove', docMove)
+
+            function docMove(e) {
+                self._$loading.show();
+                var originEvent = e.originalEvent;
+                var thisX = originEvent.touches[0].clientX;
+                to = Math.min(max, Math.max(-2, l + (thisX - x)));
+                self.setVolume(Math.max(0, to / max));
+                self.changeVolumeBar();
+                $doc.on('touchend', function docUp() {
+                    $doc.unbind('mousemove', docMove);
+                    $doc.unbind('mouseup', docUp);
+                })
+            }
         })
 
         if (self.opts.canMove) {
-            this._el.find('#btn').on('mousedown', function (e) {
-                var x = e.clientX;
+            this._el.find('#btn').on('touchstart', function (e) {
+                var originEvent = e.originalEvent;
+                var x = originEvent.touches[0].clientX;
                 var l = this.offsetLeft;
                 var max = self._el.find('#bar').innerWidth() - $(this).innerWidth();
                 var to;
                 //按钮拖动
-                $doc.on('mousemove', docMove)
+                $doc.on('touchmove', docMove)
 
 
                 function docMove(e) {
                     self._$loading.show();
-                    var thisX = e.clientX;
+                    var originEvent = e.originalEvent;
+                    var thisX = originEvent.touches[0].clientX;
                     to = Math.min(max, Math.max(-2, l + (thisX - x)));
                     self.setCurrentTime(Math.round(self.getDuration() * Math.max(0, to / max)));
                     self.changeProgressBar();
-                    $doc.on('mouseup', function () {
+                    $doc.on('touchend', function docUp() {
                         self.setCurrentTime(Math.round(self.getDuration() * Math.max(0, to / max)));
                         self.play();
                         $doc.unbind('mousemove', docMove);
+                        $doc.unbind('mouseup', docUp);
                     })
                 }
             })
@@ -158,6 +196,20 @@
         this._el.find('.curBar').css('width', Math.max(0, x) + 'px');
         this._el.find('#title').html(persent + '%');
         this._el.find('#btn').css('left', x + 'px');
+    }
+
+    //更新音量条状态
+    api.changeVolumeBar = function () {
+        // var persent = parseInt(this.getCurrentTime() / this.getDuration() * 100);
+        // var x = parseInt(this._el.find('#bar').innerWidth() * persent / 100);
+        // this._el.find('.curBar').css('width', Math.max(0, x) + 'px');
+        this._el.find('.volume').html(this.getVolume()*100);
+        // this._el.find('#btn').css('left', x + 'px');
+    }
+
+    api.reset = function () {
+        this._paused = true;
+        this.setCurrentTime(0);
     }
 
 
