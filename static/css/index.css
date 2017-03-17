@@ -5,8 +5,12 @@ body {
 .myVideo {
   border: 1px solid;
   position: relative;
+<<<<<<< Updated upstream
   display: inline-block;
   width: 100%; }
+=======
+  display: inline-block; }
+>>>>>>> Stashed changes
   .myVideo video {
     position: relative;
     z-index: 1;

@@ -31,6 +31,7 @@
         this._el = this.opts.$el;
         this._$loading = this._el.find('#loading');
         this._video = this._el.find('#video1');
+        console.log(this._video[0].networkState)
         this.isfirstloading = true;
         $.each(['autoplay', 'loop'], function (i, item) {
             if (self.opts[item]) {
@@ -45,18 +46,18 @@
 
     //播放
     api.play = function () {
-        if (!this._ready) {
-            return;
-        }
+        // if (!this._ready) {
+        //     return;
+        // }
         this._paused = false;
         this._video[0].play();
     }
 
     //暂停
     api.pause = function () {
-        if (!this._ready) {
-            return;
-        }
+        // if (!this._ready) {
+        //     return;
+        // }
         this._paused = true;
         this._video[0].pause();
     }
@@ -127,6 +128,12 @@
 
         })
         // this._video.on('loadeddata', function () {
+        //     self._ready = true;
+        //     console.log(self._ready, 2)
+        // })
+        // this._video.on('loadstart', function () {
+        //     self._ready = true;
+        //     console.log(self._ready, 3)
         // })
 
         this._video.on('timeupdate', function () {
@@ -141,31 +148,24 @@
         this._video.on('ended', function () {
             self.reset();
         })
-
         this._el.find('#pause').click(function () {
-            // f.isplay=true;
             if (self.isfirstloading) {
                 self._$loading.show();
                 var timer = setInterval(function () {
-                    var currentTime = self.getCurrentTime(); // 检测当前的播放时间
-                    if (currentTime >= 0) {
+                    var currentTime = self._video[0].currentTime; // 检测当前的播放时间
+                    $('#log').html(currentTime)
+                    if (currentTime > 0) {
                         self._$loading.hide();
                         clearInterval(timer);
-                        self.isfirstloading = false;
-                        self._ready = true;
-                        if (self._paused) {
-                            self.play();
-                        } else {
-                            self.pause();
-                        }
                     }
                 }, 100);
+            }
+            self.isfirstloading = false;
+            self._ready = true;
+            if (self._paused) {
+                self.play();
             } else {
-                if (self._paused) {
-                    self.play();
-                } else {
-                    self.pause();
-                }
+                self.pause();
             }
 
         });
@@ -173,10 +173,10 @@
         this._el.find('.fullScreen').click(function () {
             if (self._fullScreen) {
                 self.exitFullScreen();
-                self._fullScreen=false;
-            }else{
+                self._fullScreen = false;
+            } else {
                 self.enterFullScreen();
-                self._fullScreen=true;
+                self._fullScreen = true;
             }
         });
 
