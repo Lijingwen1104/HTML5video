@@ -145,6 +145,11 @@
             self._$loading.hide();
         })
 
+        this._video.on('canplay', function () {
+            console.log('canplay')
+            self._$loading.hide();
+        })
+
         this._video.on('ended', function () {
             self.reset();
         })
@@ -213,7 +218,6 @@
                 //按钮拖动
                 $doc.on('touchmove', docMove)
 
-
                 function docMove(e) {
                     self._$loading.show();
                     var originEvent = e.originalEvent;
@@ -221,9 +225,20 @@
                     to = Math.min(max, Math.max(-2, l + (thisX - x)));
                     self.setCurrentTime(Math.round(self.getDuration() * Math.max(0, to / max)));
                     self.changeProgressBar();
+                    e.preventDefault();
                     $doc.on('touchend', function docUp() {
-                        self.setCurrentTime(Math.round(self.getDuration() * Math.max(0, to / max)));
+                        var time =self.getDuration() * Math.max(0, to / max);
+                        self.setCurrentTime(Math.round(time));
                         self.play();
+                        var timer = setInterval(function () {
+                            var currentTime = self._video[0].currentTime; // 检测当前的播放时间
+                            $('#log').html(currentTime+'----'+time)
+                            if (currentTime - time >=1) {
+                                self._$loading.hide();
+                                clearInterval(timer);
+                            }
+                        }, 100);
+                        // self._$loading.hide();
                         $doc.unbind('touchmove', docMove);
                         $doc.unbind('touchend', docUp);
                     })
