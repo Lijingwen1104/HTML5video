@@ -120,6 +120,7 @@
 
         this._video.on('loadedmetadata', function () {
             self._ready = true;
+            console.log(self._ready)
             self._paused = self.opts.autoplay ? false : true;
             self._el.find('.scale_panel .curTime').html(formatTime(self.getCurrentTime()))
             self._el.find('.scale_panel .totalTime').html(formatTime(self.getDuration()))
@@ -144,22 +145,30 @@
         this._el.find('#pause').click(function () {
             // f.isplay=true;
             if (self.isfirstloading) {
-                self._$loading.style.opacity = 1;
+                self._$loading.show();
                 var timer = setInterval(function () {
                     var currentTime = self.getCurrentTime(); // 检测当前的播放时间
 
                     if (currentTime > 0) {
-                        self._$loading.style.opacity = 0;
+                        self._$loading.hide();
                         clearInterval(timer);
+                        self.isfirstloading = false;
+                        self._ready = true;
+                        if (self._paused) {
+                            self.play();
+                        } else {
+                            self.pause();
+                        }
                     }
                 }, 100);
-            }
-            self.isfirstloading = false;
-            if (self._paused) {
-                self.play();
             } else {
-                self.pause();
+                if (self._paused) {
+                    self.play();
+                } else {
+                    self.pause();
+                }
             }
+
         });
 
         this._el.find('.fullScreen').click(function () {
@@ -214,8 +223,8 @@
                     $doc.on('touchend', function docUp() {
                         self.setCurrentTime(Math.round(self.getDuration() * Math.max(0, to / max)));
                         self.play();
-                        $doc.unbind('mousemove', docMove);
-                        $doc.unbind('mouseup', docUp);
+                        $doc.unbind('touchmove', docMove);
+                        $doc.unbind('touchend', docUp);
                     })
                 }
             })
