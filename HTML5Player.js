@@ -31,6 +31,7 @@
         this._el = this.opts.$el;
         this._$loading = this._el.find('#loading');
         this._video = this._el.find('#video1');
+        this.isfirstloading = true;
         $.each(['autoplay', 'loop'], function (i, item) {
             if (self.opts[item]) {
                 self._video.attr(item, item)
@@ -141,6 +142,19 @@
         })
 
         this._el.find('#pause').click(function () {
+            // f.isplay=true;
+            if (self.isfirstloading) {
+                self._$loading.style.opacity = 1;
+                var timer = setInterval(function () {
+                    var currentTime = self.getCurrentTime(); // 检测当前的播放时间
+
+                    if (currentTime > 0) {
+                        self._$loading.style.opacity = 0;
+                        clearInterval(timer);
+                    }
+                }, 100);
+            }
+            self.isfirstloading = false;
             if (self._paused) {
                 self.play();
             } else {
@@ -149,9 +163,9 @@
         });
 
         this._el.find('.fullScreen').click(function () {
-            if(self._fullScreen){
+            if (self._fullScreen) {
                 self.exitFullScreen();
-            }else{
+            } else {
                 self.enterFullScreen();
             }
         });
