@@ -225,6 +225,7 @@
                     to = Math.min(max, Math.max(-2, l + (thisX - x)));
                     self.setCurrentTime(Math.round(self.getDuration() * Math.max(0, to / max)));
                     self.changeProgressBar();
+                    //没有下面这句，某些手机浏览器不触发touchend事件
                     e.preventDefault();
                     $doc.on('touchend', function docUp() {
                         var time =self.getDuration() * Math.max(0, to / max);
@@ -233,12 +234,11 @@
                         var timer = setInterval(function () {
                             var currentTime = self._video[0].currentTime; // 检测当前的播放时间
                             $('#log').html(currentTime+'----'+time)
-                            if (currentTime - time >=1) {
+                            if (currentTime - time >=0.5) {
                                 self._$loading.hide();
                                 clearInterval(timer);
                             }
                         }, 100);
-                        // self._$loading.hide();
                         $doc.unbind('touchmove', docMove);
                         $doc.unbind('touchend', docUp);
                     })
@@ -258,7 +258,6 @@
 
     //更新音量条状态
     api.changeVolumeBar = function () {
-        // var persent = parseInt(this.getCurrentTime() / this.getDuration() * 100);
         var x = parseInt(this._el.find('.volumeBar').innerWidth() * this.getVolume());
         this._el.find('.curVolumeBar').css('width', Math.max(0, x) + 'px');
         this._el.find('.volume').html(Math.round(this.getVolume() * 100));
