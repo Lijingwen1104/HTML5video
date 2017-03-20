@@ -50,7 +50,8 @@ body {
     .myVideo .controls .scale_panel {
       color: #999;
       display: inline-block;
-      position: relative; }
+      position: relative;
+      vertical-align: super; }
       .myVideo .controls .scale_panel span {
         font-size: 0.5rem; }
       .myVideo .controls .scale_panel .totalTime {
@@ -120,6 +121,23 @@ body {
           font-size: 0.5rem;
           position: absolute;
           left: -26px;
-          top: -7px; }
+          top: -7px;
+          background: url(../images/volume.png) no-repeat;
+          background-size: auto 100%;
+          background-position: center left;
+          padding-left: 0.5rem; }
+        .myVideo .controls .scale_panel .volumeBar .volumeIcon {
+          font-size: 0.5rem;
+          position: absolute;
+          left: -26px;
+          top: -5px;
+          background: url(../images/volume.png) no-repeat;
+          background-size: auto 100%;
+          background-position: center center;
+          padding-left: 0.5rem;
+          width: 0.6rem;
+          height: 0.6rem;
+          display: inline-block;
+          /* padding: 0; */ }
       .myVideo .controls .scale_panel .fullScreen {
         cursor: pointer; }

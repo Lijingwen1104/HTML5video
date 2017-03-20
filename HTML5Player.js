@@ -156,6 +156,7 @@
 
         this._video.on('ended', function () {
             self.reset();
+            alert("播放结束");
         })
         this._el.find('#pause').click(function () {
             if (self.isfirstloading) {
