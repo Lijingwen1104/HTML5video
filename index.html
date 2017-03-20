@@ -54,7 +54,10 @@
         autoplay: false,
         loop:false,
         volume:0.3,  // between 0-1
-        canMove: true
+        canMove: true,
+        onVideoEnded:function(){
+            console.log("ended");
+        }
     });
 </script> 
 </body>

@@ -31,7 +31,7 @@
         this._el = this.opts.$el;
         this._$loading = this._el.find('#loading');
         this._video = this._el.find('#video1');
-        console.log(this._video[0].networkState)
+        // console.log(this._video[0].networkState)
         this.isfirstloading = true;
         $.each(['autoplay', 'loop'], function (i, item) {
             if (self.opts[item]) {
@@ -125,7 +125,7 @@
 
         this._video.on('loadedmetadata', function () {
             self._ready = true;
-            console.log(self._ready)
+            // console.log(self._ready)
             self._paused = self.opts.autoplay ? false : true;
             self._el.find('.scale_panel .curTime').html(formatTime(self.getCurrentTime()))
             self._el.find('.scale_panel .totalTime').html(formatTime(self.getDuration()))
@@ -150,13 +150,13 @@
         })
 
         this._video.on('canplay', function () {
-            console.log('canplay')
+            // console.log('canplay')
             self._$loading.hide();
         })
 
         this._video.on('ended', function () {
             self.reset();
-            alert("播放结束");
+            self.opts.onVideoEnded && self.opts.onVideoEnded();
         })
         this._el.find('#pause').click(function () {
             if (self.isfirstloading) {
@@ -204,7 +204,7 @@
                 var thisX = originEvent.touches[0].clientX;
                 to = Math.min(max, Math.max(-2, l + (thisX - x)));
                 self.setVolume(Math.max(0, to / max));
-                console.log(Math.max(0, to / max))
+                // console.log(Math.max(0, to / max))
                 self.changeVolumeBar();
                 $doc.on('touchend', function docUp() {
                     $doc.unbind('mousemove', docMove);
