@@ -6,23 +6,28 @@ body {
   border: 1px solid;
   position: relative;
   display: inline-block;
-  width: 100%; }
+  width: 100%;
+  height: 200px; }
   .myVideo video {
     position: relative;
     z-index: 1;
-    width: 100%; }
+    width: 100%;
+    height: 200px; }
   .myVideo .loading {
-    background-color: rgba(120, 199, 190, 0.6);
+    background-color: rgba(0, 0, 0, 0.4);
     height: 100%;
     width: 100%;
     position: absolute;
     top: 0;
     z-index: 2;
-    display: block; }
+    display: block;
+    background-image: url(../images/loading.gif);
+    background-repeat: no-repeat;
+    background-position: center center; }
   .myVideo .controls {
+    border: 1px solid;
     /*border:1px solid;*/
     position: relative;
-    padding: 10px;
     z-index: 3;
     background-color: rgba(255, 255, 255, 0.9);
     bottom: 0;
@@ -31,41 +36,46 @@ body {
     .myVideo .controls .pausebut {
       border: none;
       border-radius: 3px;
-      background: #fe5b56;
+      width: 1rem;
+      height: 1rem;
+      border-radius: 1rem;
       color: #fff;
-      line-height: 26px;
-      margin-right: 15px;
       cursor: pointer;
-      outline: none; }
-      .myVideo .controls .pausebut:hover {
-        background: #ff4936; }
-      .myVideo .controls .pausebut:active {
-        background: #fe5b56; }
+      outline: none;
+      background-image: url(../images/play.png);
+      background-size: 100%;
+      padding: 0; }
+    .myVideo .controls .pausebut--active {
+      background-image: url(../images/pause.png); }
     .myVideo .controls .scale_panel {
       color: #999;
-      line-height: 18px;
-      left: 100px;
-      top: -0px;
-      display: inline-block; }
+      display: inline-block;
+      position: relative; }
+      .myVideo .controls .scale_panel span {
+        font-size: 0.5rem; }
+      .myVideo .controls .scale_panel .totalTime {
+        padding-left: 0.4rem; }
       .myVideo .controls .scale_panel .scale {
         background-repeat: repeat-x;
         background-position: 0 100%;
         background-color: #E4E4E4;
         border-left: 1px #83BBD9 solid;
-        width: 200px;
+        width: 4rem;
         height: 3px;
         position: relative;
         font-size: 0px;
         border-radius: 3px;
         display: inline-block;
-        top: -6px; }
+        top: -3px; }
         .myVideo .controls .scale_panel .scale #btn {
-          background: url(../images/scroll.gif) no-repeat;
-          width: 8px;
-          height: 16px;
+          border: 1px solid #b1b1b1;
+          width: 0.5rem;
+          height: 0.5rem;
+          border-radius: 0.7rem;
+          background-color: #e4e4e4;
           position: absolute;
           left: -2px;
-          top: -7px;
+          top: -5px;
           cursor: pointer; }
         .myVideo .controls .scale_panel .scale .curBar {
           background-repeat: repeat-x;
@@ -80,21 +90,23 @@ body {
         background-position: 0 100%;
         background-color: #E4E4E4;
         border-left: 1px #83BBD9 solid;
-        width: 84px;
+        width: 2rem;
         height: 3px;
         position: relative;
         font-size: 0px;
         border-radius: 3px;
         display: inline-block;
-        top: -6px;
-        margin-right: 36px; }
+        top: -3px;
+        margin-left: 1rem; }
         .myVideo .controls .scale_panel .volumeBar #volumeBtn {
-          background: url(../images/scroll.gif) no-repeat;
-          width: 8px;
-          height: 16px;
+          border: 1px solid #b1b1b1;
+          width: 0.5rem;
+          height: 0.5rem;
+          border-radius: 0.7rem;
+          background-color: #e4e4e4;
           position: absolute;
           left: -2px;
-          top: -7px;
+          top: -5px;
           cursor: pointer; }
         .myVideo .controls .scale_panel .volumeBar .curVolumeBar {
           background-repeat: repeat-x;
@@ -105,9 +117,9 @@ body {
           left: 0;
           bottom: 0; }
         .myVideo .controls .scale_panel .volumeBar .volume {
-          font-size: 16px;
+          font-size: 0.5rem;
           position: absolute;
-          right: -26px;
-          top: -6px; }
+          left: -26px;
+          top: -7px; }
       .myVideo .controls .scale_panel .fullScreen {
         cursor: pointer; }

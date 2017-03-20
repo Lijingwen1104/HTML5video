@@ -51,6 +51,9 @@
         // }
         this._paused = false;
         this._video[0].play();
+        //  $(this).toggleClass("pausebut--active");
+         $("#pause").toggleClass("pausebut--active");
+        
     }
 
     //暂停
@@ -60,6 +63,7 @@
         // }
         this._paused = true;
         this._video[0].pause();
+        $("#pause").toggleClass("pausebut--active");
     }
 
     //设置静音与否
